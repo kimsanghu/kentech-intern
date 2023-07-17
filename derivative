@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+a=[]
+b=[]
+# dy/dx = -y
+def func(x,y):
+    return -y
+
+x, y, h = 0, 1, 0.05
+ 
+for i in range(1000):
+    k1 = func(x,y)
+    k2 = func(x+0.5*h, y+0.5*k1*h)
+    k3 = func(x+0.5*h,y+0.5*k2*h)
+    k4 = func(x+h,y+k3*h)
+    y= y + h / 6. * (k1 + 2. * k2 + 2. * k3 + k4)
+    x= x + h
+    a.append(x)
+    b.append(y)
+
+
+plt.plot(a, b, label = "RK4")
+plt.scatter(a,b)
+plt.grid()
+plt.xlabel("x")
+plt.ylabel("y")
+plt.legend()
+#plt.yscale('log')
+plt.show()

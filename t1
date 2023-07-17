@@ -1,0 +1,51 @@
+import numpy as np
+import matplotlib.pyplot as plt
+ 
+tmax = 10
+t = np.linspace(0, tmax, 100)
+
+def F(t,x,v):
+     return -x
+
+def RK4(F,t,v):
+  h = t[1] - t[0]
+  nt = len(t)
+  X = np.zeros(nt)
+  V = np.zeros(nt)
+  X[0] = 0                        # 초기값 x(0) = 0
+  V[0] = v
+  for i in range(nt-1):
+    
+        c0 = V[i]
+        k0 = F(t[i],X[i],c0)
+
+        c1 = V[i] + h*0.5*k0
+        k1 = F(t[i]+h/2, X[i]+h*c1/2, c1)
+
+        c2 = V[i] + h*0.5*k1
+        k2 = F(t[i]+h/2, X[i]+h*c2/2, c2)
+
+        c3 = V[i] + h*k2
+        k3 = F(t[i]+h, X[i]+h*c3, c3)
+
+        X[i+1] = X[i] + h*(c0 + 2*c1 + 2*c2 + c3)/6
+        V[i+1] = V[i] + h*(k0 + 2*k1 + 2*k2 + k3)/6
+
+  return X,V 
+
+
+# v는 0~5
+a = 5
+x_rk4 = []
+v_rk4 = []
+for v in range(a):  
+  x_rk4, v_rk4= RK4(F,t,v)
+  plt.plot(t, x_rk4, label = "x of v0 = " + str(v)) 
+  plt.plot(t, v_rk4, label = "v of v0 = " + str(v)) 
+
+plt.legend()
+plt.legend(loc='lower left')
+plt.xlim([0, 10])      
+plt.ylim([-10, 10])
+plt.grid()
+plt.show()

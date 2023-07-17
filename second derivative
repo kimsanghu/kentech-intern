@@ -1,0 +1,42 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
+a=[]
+b=[]
+# d^2x/dt^2 = -x
+def F(t,x,v):
+     return -x
+
+t, x, v = 0, 0, 10
+h = 0.05
+j=0
+
+for i in range(1000):
+    
+        c0 = v
+        k0 = F(t,x,c0)
+
+        c1 = v + h*0.5*k0
+        k1 = F(t+h/2, x+h*c1/2, c1)
+
+        c2 = v + h*0.5*k1
+        k2 = F(t+h/2, x+h*c2/2, c2)
+
+        c3 = v + h*k2
+        k3 = F(t+h, x+h*c3, c3)
+
+        t = t + h   
+        x = x + h*(c0 + 2*c1 + 2*c2 + c3)/6
+        v = v + h*(k0 + 2*k1 + 2*k2 + k3)/6
+
+
+        a.append(t)
+        b.append(x)
+
+plt.plot(a, b)
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
